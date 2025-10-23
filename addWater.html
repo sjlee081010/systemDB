@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form action="" id="water">
+        <table>
+            <tr>
+                <td><input type="text" id="title" required></td>
+            </tr>
+            <tr>
+                <td><textarea id="bonmun" required></textarea></td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <button type="button" onclick="location.href='index.html'">취소</button>    
+                    <button type="submit" id="submit">저장</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        const button = document.getElementById('submit');
+
+        button.addEventListener('click', async (e)=>{
+            e.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const bonmun = document.getElementById('bonmun').value;
+
+            const response = await fetch('http://localhost:8000/addWater', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, bonmun })
+            });
+            const object = await response.json();
+            if(object.success===true) location.href = 'index.html';
+            else alert('오류 발생!!!!!');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="block">
+        <h1></h1>
+        <hr>
+        <p></p>
+        <hr>
+    </div>
+    <button type="button" onclick="location.href = 'index.html'">돌아가기</button>
+    <script>
+        async function request() {
+            const id = new URLSearchParams(window.location.search);
+            const response = await fetch(`http://localhost:8000/get?${id}`, { method: 'GET' });
+            const data = await response.json();
+            document.querySelector('h1').textContent = `${data[0].title}`;
+            document.querySelector('p').textContent = data[0].bonmun;
+        }
+        request();
+    </script>
+</body>
+
+</html>

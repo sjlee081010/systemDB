@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <ul class="container block">
+    </ul>
+    <a href="addWater.html">글 추가</a>
+    <script>
+        const container = document.querySelector('.container');
+
+        async function request() {
+            const response = await fetch('http://localhost:8000/getAll', { method: 'GET' });
+            const data = await response.json();
+
+            data.forEach(object => {
+                const li = document.createElement('li');
+                li.style.padding = '5px 20px';
+                li.style.display = 'flex';
+                li.style.justifyContent = 'space-between';
+                li.style.borderBottom = '1px solid #333';
+                const get = document.createElement('a');
+                get.href = `getWater.html?id=${object.id}`;
+                get.textContent = object.title;
+                const update = document.createElement('a');
+                update.style.marginRight = '20px';
+                update.href = `updateWater.html?id=${object.id}`;
+                update.textContent = '수정';
+                const del = document.createElement('a');
+                del.style.cursor = 'pointer';
+                del.textContent = '삭제';
+                del.addEventListener('click', async () => {
+                    const response = await fetch(`http://localhost:8000/deleteWater?id=${object.id}`, {method: 'DELETE'});
+                    const data = await response.json();
+                    if(data.success===true) location.href = 'index.html';
+                    else alert('삭제 실패!!!!');
+                });
+                const box = document.createElement('div');
+                box.appendChild(update);
+                box.appendChild(del);
+
+                li.appendChild(get);
+                li.appendChild(box);
+                container.appendChild(li);
+            });
+        }
+        request();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form action="" id="water">
+        <table>
+            <tr>
+                <td><input type="text" id="title" required></td>
+            </tr>
+            <tr>
+                <td><textarea id="bonmun" required></textarea></td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <button type="button" onclick="location.href='index.html'">취소</button>    
+                    <button type="submit" id="submit">수정</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        const button = document.getElementById('submit');
+
+        button.addEventListener('click', async (e)=>{
+            e.preventDefault();
+            const id = new URLSearchParams(window.location.search).get('id');
+            
+            const title = document.getElementById('title').value;
+            const bonmun = document.getElementById('bonmun').value;
+
+            const response = await fetch('http://localhost:8000/updateWater', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, title, bonmun }),
+            });
+            const object = await response.json();
+            if(object.success===true) {
+                alert('수정');
+                location.href = 'index.html';
+            } else alert('오류 발생!!!!!');
+        });
+
+        async function request() {
+            const id = new URLSearchParams(window.location.search);
+            const response = await fetch(`http://localhost:8000/get?${id}`, { method: 'GET' });
+            const data = await response.json();
+            document.querySelector('input').value = `${data[0].title}`;
+            document.querySelector('textarea').value = data[0].bonmun;
+        }
+        request();        
+    </script>
+</body>
+</html>
