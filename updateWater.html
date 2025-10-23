@@ -33,7 +33,7 @@
             const title = document.getElementById('title').value;
             const bonmun = document.getElementById('bonmun').value;
 
-            const response = await fetch('http://localhost:8000/updateWater', {
+            const response = await fetch('/updateWater', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id, title, bonmun }),
@@ -47,7 +47,7 @@
 
         async function request() {
             const id = new URLSearchParams(window.location.search);
-            const response = await fetch(`http://localhost:8000/get?${id}`, { method: 'GET' });
+            const response = await fetch(`/get?${id}`, { method: 'GET' });
             const data = await response.json();
             document.querySelector('input').value = `${data[0].title}`;
             document.querySelector('textarea').value = data[0].bonmun;

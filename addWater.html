@@ -32,7 +32,7 @@
             const title = document.getElementById('title').value;
             const bonmun = document.getElementById('bonmun').value;
 
-            const response = await fetch('http://localhost:8000/addWater', {
+            const response = await fetch('/addWater', {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title, bonmun })

@@ -1,16 +1,21 @@
 import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const PORT = process.env.PORT;
 
 const app = express();
+app.use(express.static('.'));
 app.use(express.json());
 app.use(cors());
 
 const conn = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'systemDB',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
 });
 
 app.get('/getAll', async (req, res)=>{
@@ -77,7 +82,7 @@ async function addWater(title, bonmun) {
 }
 
 async function updateWater(id, title, bonmun) {
-    const sql = 'UPDATE water SET id = ?, title = ?, bonmun = ?';
+    const sql = 'UPDATE water SET title = ?, bonmun = ? WHERE id = ?';
     const [result] = await conn.query(sql, [id, title, bonmun]);
     return result;
 }
@@ -88,4 +93,4 @@ async function deleteWater(id) {
     return result.affectedRows;
 }
 
-app.listen(8000, ()=>console.log('http://localhost:8000'));
+app.listen(PORT, ()=>console.log(`${PORT}`));

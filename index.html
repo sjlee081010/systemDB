@@ -16,7 +16,7 @@
         const container = document.querySelector('.container');
 
         async function request() {
-            const response = await fetch('http://localhost:8000/getAll', { method: 'GET' });
+            const response = await fetch('/getAll', { method: 'GET' });
             const data = await response.json();
 
             data.forEach(object => {
@@ -36,7 +36,7 @@
                 del.style.cursor = 'pointer';
                 del.textContent = '삭제';
                 del.addEventListener('click', async () => {
-                    const response = await fetch(`http://localhost:8000/deleteWater?id=${object.id}`, {method: 'DELETE'});
+                    const response = await fetch(`/deleteWater?id=${object.id}`, {method: 'DELETE'});
                     const data = await response.json();
                     if(data.success===true) location.href = 'index.html';
                     else alert('삭제 실패!!!!');
