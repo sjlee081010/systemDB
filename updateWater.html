@@ -49,8 +49,8 @@
             const id = new URLSearchParams(window.location.search);
             const response = await fetch(`/get?${id}`, { method: 'GET' });
             const data = await response.json();
-            document.querySelector('input').value = `${data[0].title}`;
-            document.querySelector('textarea').value = data[0].bonmun;
+            document.querySelector('input').value = `${data.title}`;
+            document.querySelector('textarea').value = data.bonmun;
         }
         request();        
     </script>
